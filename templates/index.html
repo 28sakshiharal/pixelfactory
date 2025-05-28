@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Available Jobs</h2>
+
+{% if jobs %}
+    {% for job in jobs %}
+        <div class="card mb-2 p-2">
+            <h4>{{ job.title }}</h4>
+            <p>{{ job.description }}</p>
+            <p><strong>Company:</strong> {{ job.company }}</p>
+            <p><strong>Location:</strong> {{ job.location }}</p>
+            <p><strong>Salary:</strong> {{ job.salary }}</p>
+            <!-- <a href="{{ url_for('job_detail', job_id=job.id) }}" class="btn btn-primary">View & Apply</a> -->
+             <a href="{{ url_for('job_detail', job_id=job.id) }}" class="btn btn-primary">
+    {% if session.get('role') == 'seeker' %}
+        View & Apply
+    {% else %}
+        View Details
+    {% endif %}
+</a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No jobs available at the moment.</p>
+{% endif %}
+{% endblock %}

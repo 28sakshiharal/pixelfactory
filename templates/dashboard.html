@@ -1,0 +1,55 @@
+<!-- dashboard.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Welcome, {{ user.username }}!</h2>
+<p>Your role: {{ user.role }}</p>
+
+{% if user.role == 'employer' %}
+    <a href="/post-job" class="btn btn-primary">Post a New Job</a>
+
+    <h3 class="mt-4">My Posted Jobs</h3>
+    {% if jobs %}
+        {% for job in jobs %}
+            <div class="card mb-2 p-2">
+                <h5>{{ job.title }}</h5>
+                <p>{{ job.description }}</p>
+                <a href="{{ url_for('edit_job', job_id=job.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{{ url_for('delete_job', job_id=job.id) }}" class="btn btn-sm btn-danger">Delete</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You haven't posted any jobs yet.</p>
+    {% endif %}
+{% endif %}
+{% if user.role == 'seeker' %}
+    <h3>Available Jobs</h3>
+    {% if jobs %}
+        {% for job in jobs %}
+            <div class="card mb-2 p-2">
+                <h4>{{ job.title }}</h4>
+                <p>{{ job.description }}</p>
+                <p><strong>Company:</strong> {{ job.company }}</p>
+                <p><strong>Location:</strong> {{ job.location }}</p>
+                <p><strong>Salary:</strong> {{ job.salary }}</p>
+                <a href="{{ url_for('job_detail', job_id=job.id) }}" class="btn btn-primary">View & Apply</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No jobs available at the moment.</p>
+    {% endif %}
+    
+    <h3>Your Applications</h3>
+    {% if user.applications %}
+        {% for application in user.applications %}
+            <div class="card mb-2 p-2">
+                <h4>Job: {{ application.job.title }}</h4>
+                <p>Status: Submitted</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You have not applied for any jobs yet.</p>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

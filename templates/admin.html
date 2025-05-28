@@ -1,0 +1,42 @@
+<!-- admin.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Admin Panel</h2>
+
+<h3>All Users</h3>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Role</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.role }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="3">No users found.</td></tr>
+    {% endfor %}
+</table>
+
+<h3>All Jobs</h3>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Company</th>
+    </tr>
+    {% for job in jobs %}
+    <tr>
+        <td>{{ job.id }}</td>
+        <td>{{ job.title }}</td>
+        <td>{{ job.company }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="3">No jobs found.</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}
